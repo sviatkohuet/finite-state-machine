@@ -1,0 +1,36 @@
+digraph StudentDayFSM {
+    rankdir=LR;
+
+    start [shape=point];
+    asleep [label="start/sleep"];
+    awake [label="awake"];
+    class [label="class"];
+    eat [label="eat"];
+    study [label="study"];
+    leisure [label="leisure"];
+    pivo [label="pivo"];
+    sleep [label="sleep/end"];
+
+    start -> asleep;
+    asleep -> awake;
+    awake -> class;
+    class -> class [label="time < 14"];
+    class -> eat [label="time >= 14"];
+    eat -> eat [label="15 <= time <= 18 and probability 0.9"];
+    eat -> leisure [label="time >= 18"];
+    eat -> leisure [label="time < 15 or (time > 18 and probability  0.9)"];
+    eat -> pivo [label="time >= 15 and time <= 18 and probability  0.9"];
+    pivo -> pivo [label="time < 16 or (time >= 16 and probability  0.6)"];
+    pivo -> study [label="time >= 16 and probability 0.6"];
+    study -> study [label="time < 19 or probability  0.3"];
+    study -> eat [label="time >= 19 and probability 0.3"];
+    study -> leisure [label="time >= 19"];
+    leisure -> leisure [label="18 <= time <= 21 and probability 0.8 and hungry"];
+    leisure -> eat [label="18 <= time <= 21 and probability 0.8 and !hungry"];
+    leisure -> sleep [label="time >= 23"];
+    leisure -> leisure [label="18 <= time <= 21 and probability  0.8"];
+    sleep -> asleep [label="!end"];
+    asleep -> awake [label="time >= 8 and probability 0.7"];
+    asleep -> sleep [label="time >= 8 and probability  0.7"];
+}
+
